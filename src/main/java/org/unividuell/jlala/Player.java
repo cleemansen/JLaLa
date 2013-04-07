@@ -1,5 +1,7 @@
 package org.unividuell.jlala;
 
+import java.io.*;
+
 
 /**
  * A Player. Supports basic operation of a common player.
@@ -31,6 +33,12 @@ public interface Player {
      * @param vol volume between [0, 100]
      */
     void setVolume(float vol);
+
+    /**
+     * Returns the volume
+     * @return current volume [0, 100]
+     */
+    float getVolume();
     
     /**
      * Increase/decrease volume.
@@ -48,13 +56,13 @@ public interface Player {
      * seek to position
      * @param percentage position in track in milliseconds
      */
-    void setTrackPositionAbsolute(float milliseconds);
+    void setTrackPositionAbsolute(long milliseconds);
     
     /**
      * return track position
      * @return track position in millis
      */
-    float getTrackPosition();
+    long getTrackPosition();
     
     /**
      * return track position
@@ -64,9 +72,11 @@ public interface Player {
     
     /**
      * loads a file.
+     * @param file 
      * @param appendToPlaylist append to a playlist or start playing instantly?
+     * @throws IOException 
      */
-    void loadFile(boolean appendToPlaylist);
+    void loadFile(File file, boolean appendToPlaylist) throws IOException;
     
     /**
      * toggle mute state.
