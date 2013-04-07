@@ -240,8 +240,8 @@ public class MPlayer implements Player {
     }
     
     @Override
-    public float getVolume() {
-        return getPropertyAsFloat("volume");
+    public long getVolume() {
+        return (long) getPropertyAsFloat("volume");
     }
     
     @Override

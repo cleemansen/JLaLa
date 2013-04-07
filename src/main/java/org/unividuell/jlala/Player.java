@@ -38,7 +38,7 @@ public interface Player {
      * Returns the volume
      * @return current volume [0, 100]
      */
-    float getVolume();
+    long getVolume();
     
     /**
      * Increase/decrease volume.
