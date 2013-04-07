@@ -76,7 +76,7 @@ public interface Player {
      * @param appendToPlaylist append to a playlist or start playing instantly?
      * @throws IOException 
      */
-    void loadFile(File file, boolean appendToPlaylist) throws IOException;
+    void loadFile(String uri, boolean appendToPlaylist) throws IOException;
     
     /**
      * toggle mute state.

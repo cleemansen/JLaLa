@@ -45,13 +45,13 @@ public class MPlayerTest {
     public void open() throws Exception {
         // prepare
         when(mockOSmPlayerOutErr.readLine()).thenReturn("Starting playback...");
-        File file = new File("/path/to/file.ogg");
+        String file = "/path/to/file.ogg";
 
         // execute
         sut.open(file);
         
         // verify
-        verify(mockOSmPlayerIn).print("loadfile " + file.getPath() + " 0");
+        verify(mockOSmPlayerIn).print("loadfile " + file + " 0");
     }
 
     @Test

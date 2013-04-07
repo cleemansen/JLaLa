@@ -85,14 +85,14 @@ public class MPlayer implements Player {
         this.mplayerPath = mplayerPath;
     }
 
-    public void open(File file) throws IOException {
-        String path = file.getAbsolutePath().replace('\\', '/');
+    public void open(String uri) throws IOException {
+//        String path = file.getAbsolutePath().replace('\\', '/');
         
-        execute("loadfile " + path + " 0");
+        execute("loadfile " + uri + " 0");
 
         // wait to start playing
         waitForAnswer("Starting playback...");
-        logger.info("Started playing file " + path);
+        logger.info("Started playing file " + uri);
     }
 
     public void close() {
@@ -279,8 +279,8 @@ public class MPlayer implements Player {
     }
 
     @Override
-    public void loadFile(File file, boolean appendToPlaylist) throws IOException {
-        open(file);
+    public void loadFile(String uri, boolean appendToPlaylist) throws IOException {
+        open(uri);
     }
 
     @Override
