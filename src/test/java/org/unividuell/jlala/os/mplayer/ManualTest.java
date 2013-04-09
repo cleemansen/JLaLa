@@ -1,5 +1,7 @@
 package org.unividuell.jlala.os.mplayer;
 
+import static org.fest.assertions.Assertions.assertThat;
+
 import java.io.*;
 import java.net.*;
 
@@ -30,20 +32,10 @@ public class ManualTest {
     }
     
     @Test
-    public void testName() throws Exception {
-        // prepare
-        
-        // execute
-
-        // verify 
-    }
-    
-    @Test
     public void play() throws Exception {
         // prepare
         URL sound = this.getClass().getClassLoader().getResource("luv_deluxe.ogg");
         String path = new File(sound.getPath()).getAbsolutePath();
-        
 
         // execute
         sut.loadFile(path, false);
@@ -51,20 +43,66 @@ public class ManualTest {
         sut.setTrackPositionAbsolute(60000);
         
         Thread.sleep(2000);
+    }
+    
+    @Test
+    public void volume() throws Exception {
+        URL sound = this.getClass().getClassLoader().getResource("luv_deluxe.ogg");
+        String path = new File(sound.getPath()).getAbsolutePath();
+        // execute
+        sut.loadFile(path, false);
+        sut.setVolume(10);
+        // seek to 1 min
+        sut.setTrackPositionAbsolute(60000);
         
         long start = sut.getVolume();
-        for (; start > 5; start--) {
-            sut.setVolume(start);
-        }
         Thread.sleep(3000);
-        for (; start < 100; start++) {
+        for (; start <= 100; start++) {
             sut.setVolume(start);
-            Thread.sleep(200);
+            Thread.sleep(100);
         }
+        long actual = sut.getVolume();
+        Thread.sleep(3000);
         
-        Thread.sleep(10000);
+        // verify
+        assertThat(actual).isEqualTo(100);
+    }
+    
+    @Test
+    public void position() throws Exception {
+        URL sound = this.getClass().getClassLoader().getResource("luv_deluxe.ogg");
+        String path = new File(sound.getPath()).getAbsolutePath();
+        // execute
+        sut.loadFile(path, false);
+        sut.setVolume(40);
         
-        // verify 
+        long position = sut.getTrackPosition();
+        assertThat(position).isEqualTo(0);
+        // seek to 1 min
+        sut.setTrackPositionAbsolute(60000);
+        Thread.sleep(500);
+        position = sut.getTrackPosition();
+        assertThat(position).isEqualTo(60);
+    }
+    
+    @Test
+    public void pause() throws Exception {
+        URL sound = this.getClass().getClassLoader().getResource("luv_deluxe.ogg");
+        String path = new File(sound.getPath()).getAbsolutePath();
+        // execute
+        sut.loadFile(path, false);
+        sut.setVolume(40);
+        
+        sut.setTrackPositionAbsolute(60000);
+        Thread.sleep(1000);
+        sut.pause();
+        Thread.sleep(2000);
+        sut.pause();
+        Thread.sleep(1000);
+        sut.pause();
+        Thread.sleep(2000);
+        sut.pause();
+        Thread.sleep(3000);
     }
 
 }

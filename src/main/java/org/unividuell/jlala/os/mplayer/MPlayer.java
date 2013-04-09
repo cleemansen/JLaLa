@@ -35,8 +35,7 @@ public class MPlayer implements Player {
     /**
      * Does nothing. You have to initialize everything by your own!
      */
-    public MPlayer() {
-        logger.warn("YOU ARE DOING BAD THINGS!!");
+    private MPlayer() {
     }
 
     public MPlayer(boolean startProcess, String mPlayerPath) {

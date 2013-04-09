@@ -16,11 +16,11 @@ import org.mockito.runners.*;
 public class MPlayerTest {
     
     
-    private static final String GET = "get_property ";
+    private static final String GET = "pausing_keep get_property ";
 
     private static final String ANS = "ANS_";
 
-    private static final String SET = "set_property ";
+    private static final String SET = "pausing_keep set_property ";
 
     @Mock
     PrintStream mockOSmPlayerIn;
@@ -35,7 +35,7 @@ public class MPlayerTest {
     
     @Before
     public void setup() throws IOException {
-        sut = new MPlayer();
+        sut = new MPlayer(false, "path");
         sut.setMplayerIn(mockOSmPlayerIn);
         sut.setMplayerOutErr(mockOSmPlayerOutErr);
         sut.setMplayerProcess(mockProcess);
@@ -57,6 +57,7 @@ public class MPlayerTest {
     @Test
     public void getTrackPosition() throws Exception {
         // given
+        sut.open("");
         Long expected = 2000L;
         given(mockOSmPlayerOutErr.readLine()).willReturn(ANS + "time_pos=" + expected);
         
@@ -71,6 +72,7 @@ public class MPlayerTest {
     @Test
     public void setVolume() throws Exception {
         // prepare
+        sut.open("uri");
         long expected = 56;
 
         // execute
@@ -82,6 +84,7 @@ public class MPlayerTest {
     @Test
     public void getVolume() throws Exception {
         // prepare
+        sut.open("");
         when(mockOSmPlayerOutErr.readLine()).thenReturn("ANS_volume=25.000000");
         // execute
         long actual = sut.getVolume();
