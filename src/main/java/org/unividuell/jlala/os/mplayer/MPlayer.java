@@ -25,11 +25,14 @@ public class MPlayer implements Player {
      */
     private BufferedReader mplayerOutErr;
     
+    /** signals weather a file is loaded in the mplayer process. */
+    private boolean isFileLoaded = false;
+    
     /**
      * Does nothing. You have to initialize everything by your own!
      */
     public MPlayer() {
-        
+        logger.warn("YOU ARE DOING BAD THINGS!!");
     }
 
     public MPlayer(boolean startProcess, String mPlayerPath) {
@@ -125,6 +128,7 @@ public class MPlayer implements Player {
         // wait to start playing
         waitForAnswer("Starting playback...");
         logger.info("Started playing file " + uri);
+        isFileLoaded = true;
     }
 
     @Override
@@ -136,6 +140,7 @@ public class MPlayer implements Player {
             } catch (InterruptedException e) {
             }
             mplayerProcess = null;
+            isFileLoaded = false;
         }
     }
     
@@ -274,12 +279,18 @@ public class MPlayer implements Player {
     
     @Override
     public long getVolume() {
-        return (long) getPropertyAsFloat("volume");
+        long vol = 0;
+        if (isFileLoaded) {
+            vol = (long) getPropertyAsFloat("volume");
+        }
+        return vol;
     }
     
     @Override
     public void setVolume(float vol) {
-        setProperty("volume", vol);
+        if (isFileLoaded) {
+            setProperty("volume", vol);
+        }
     }
 
     @Override
@@ -296,13 +307,19 @@ public class MPlayer implements Player {
 
     @Override
     public void setTrackPositionAbsolute(long milliseconds) {
-        long seconds = milliseconds / 1000;
-        setProperty("time_pos", seconds);
+        if (isFileLoaded) {
+            long seconds = milliseconds / 1000;
+            setProperty("time_pos", seconds);
+        }
     }
 
     @Override
     public long getTrackPosition() {
-        return getPropertyAsLong("time_pos");
+        long pos = 0;
+        if (isFileLoaded) {
+            pos = getPropertyAsLong("time_pos");
+        }
+        return pos;
     }
 
     @Override
