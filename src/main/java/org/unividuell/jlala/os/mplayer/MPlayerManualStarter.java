@@ -15,7 +15,7 @@ public class MPlayerManualStarter {
 
     public MPlayerManualStarter(String file) throws IOException {
 
-        Player mPlayer = new MPlayer(true);
+        Player mPlayer = new MPlayer(true, null);
 
         mPlayer.loadFile(file, false);
     }

@@ -13,7 +13,7 @@ public class MPlayer implements Player {
     /** The path to the MPlayer executable. */
     private String mplayerPath = "/usr/bin/mplayer";
     /** Options passed to MPlayer. */
-    private final String mplayerOptions = "-slave -idle";
+    private String mplayerOptions = "-slave -idle";
 
     /** The process corresponding to MPlayer. */
     private Process mplayerProcess;
@@ -24,8 +24,18 @@ public class MPlayer implements Player {
      * to read MPlayer responses.
      */
     private BufferedReader mplayerOutErr;
+    
+    /**
+     * Does nothing. You have to initialize everything by your own!
+     */
+    public MPlayer() {
+        
+    }
 
-    public MPlayer(boolean startProcess) {
+    public MPlayer(boolean startProcess, String mPlayerPath) {
+        if (mPlayerPath != null) {
+            setMPlayerPath(mPlayerPath);
+        }
         if (startProcess) {
             try {
                 initProcess();
@@ -37,6 +47,24 @@ public class MPlayer implements Player {
         }
     }
     
+    public MPlayer(boolean startProcess, String mPlayerPath, String mPlayerOptions) {
+        if (mPlayerPath != null) {
+            setMPlayerPath(mPlayerPath);
+        }
+        if (mPlayerOptions != null) {
+            setMplayerOptions(mPlayerOptions);
+        }
+        if (startProcess) {
+            try {
+                initProcess();
+            } catch (IOException e) {
+                String msg = "couldn't start mplayer process.";
+                logger.error(msg, e);
+                throw new IllegalStateException(msg, e);
+            }
+        }
+    }
+
     protected void initProcess() throws IOException {
         if (mplayerProcess == null) {
             // start MPlayer as an external process
@@ -62,15 +90,15 @@ public class MPlayer implements Player {
     }
 
     /** @return the path to the MPlayer executable. */
-    public String getMPlayerPath() {
+    protected String getMPlayerPath() {
         return mplayerPath;
     }
     
-    public void setMplayerIn(PrintStream mplayerIn) {
+    protected void setMplayerIn(PrintStream mplayerIn) {
         this.mplayerIn = mplayerIn;
     }
     
-    public void setMplayerOutErr(BufferedReader mplayerOutErr) {
+    protected void setMplayerOutErr(BufferedReader mplayerOutErr) {
         this.mplayerOutErr = mplayerOutErr;
     }
 
@@ -81,11 +109,15 @@ public class MPlayer implements Player {
      *            the new MPlayer path; this will be actually efective after
      *            {@link #close() closing} the currently running player.
      */
-    public void setMPlayerPath(String mplayerPath) {
+    protected void setMPlayerPath(String mplayerPath) {
         this.mplayerPath = mplayerPath;
     }
+    
+    protected void setMplayerOptions(String mplayerOptions) {
+        this.mplayerOptions = mplayerOptions;
+    }
 
-    public void open(String uri) throws IOException {
+    protected void open(String uri) throws IOException {
 //        String path = file.getAbsolutePath().replace('\\', '/');
         
         execute("loadfile " + uri + " 0");
@@ -95,6 +127,7 @@ public class MPlayer implements Player {
         logger.info("Started playing file " + uri);
     }
 
+    @Override
     public void close() {
         if (mplayerProcess != null) {
             execute("quit");

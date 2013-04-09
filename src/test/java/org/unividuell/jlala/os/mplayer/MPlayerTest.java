@@ -35,7 +35,7 @@ public class MPlayerTest {
     
     @Before
     public void setup() throws IOException {
-        sut = new MPlayer(false);
+        sut = new MPlayer();
         sut.setMplayerIn(mockOSmPlayerIn);
         sut.setMplayerOutErr(mockOSmPlayerOutErr);
         sut.setMplayerProcess(mockProcess);

@@ -8,7 +8,7 @@ public class PlayerFactory {
     
     private static PlayerFactory instance;
     
-    private final Player mPlayer = new MPlayer(true);
+    private final Player mPlayer = new MPlayer(true, null, "-slave -idle -quiet");
     
     private PlayerFactory() {
         // do nothing
