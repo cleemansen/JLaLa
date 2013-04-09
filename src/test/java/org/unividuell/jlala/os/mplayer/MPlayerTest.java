@@ -78,4 +78,15 @@ public class MPlayerTest {
         // verify 
         verify(mockOSmPlayerIn).print(SET + "volume " + expected + ".0");
     }
+    
+    @Test
+    public void getVolume() throws Exception {
+        // prepare
+        when(mockOSmPlayerOutErr.readLine()).thenReturn("ANS_volume=25.000000");
+        // execute
+        long actual = sut.getVolume();
+
+        // verify
+        assertThat(actual).isEqualTo(25);
+    }
 }
