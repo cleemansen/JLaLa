@@ -283,7 +283,7 @@ public class MPlayer implements Player {
     
     @Override
     public long getVolume() {
-        long vol = 0;
+        long vol = 50;
         if (isFileLoaded) {
             vol = (long) getPropertyAsFloat("volume");
         }
