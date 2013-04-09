@@ -15,7 +15,9 @@ public interface Player {
     
     /**
      * Start playback.
+     * {@link Deprecated use Player#loadFile(String, boolean) instead}
      */
+    @Deprecated
     void play();
     
     /**
@@ -77,6 +79,11 @@ public interface Player {
      * @throws IOException 
      */
     void loadFile(String uri, boolean appendToPlaylist) throws IOException;
+    
+    /**
+     * cloeses the player
+     */
+    void close();
     
     /**
      * toggle mute state.
