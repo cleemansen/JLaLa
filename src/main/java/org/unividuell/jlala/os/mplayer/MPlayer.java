@@ -8,6 +8,10 @@ import org.unividuell.jlala.os.*;
 
 public class MPlayer implements Player {
     
+    private static final String SET_PROP = "pausing_keep set_property ";
+
+    private static final String GET_PROP = "pausing_keep get_property ";
+
     final Logger logger = LoggerFactory.getLogger(MPlayer.class);
     
     /** The path to the MPlayer executable. */
@@ -212,7 +216,7 @@ public class MPlayer implements Player {
             return null;
         }
         String s = "ANS_" + name + "=";
-        String x = execute("get_property " + name, s);
+        String x = execute(GET_PROP + name, s);
         if (x == null)
             return null;
         if (!x.startsWith(s))
@@ -239,15 +243,15 @@ public class MPlayer implements Player {
     }
 
     protected void setProperty(String name, String value) {
-        execute("set_property " + name + " " + value);
+        execute(SET_PROP + name + " " + value);
     }
 
     protected void setProperty(String name, long value) {
-        execute("set_property " + name + " " + value);
+        execute(SET_PROP + name + " " + value);
     }
 
     protected void setProperty(String name, float value) {
-        execute("set_property " + name + " " + value);
+        execute(SET_PROP + name + " " + value);
     }
     
     public void setMplayerProcess(Process mplayerProcess) {
@@ -273,7 +277,7 @@ public class MPlayer implements Player {
 
     @Override
     public void pause() {
-        // TODO Auto-generated method stub
+        execute("pause");
 
     }
     
@@ -317,7 +321,7 @@ public class MPlayer implements Player {
     public long getTrackPosition() {
         long pos = 0;
         if (isFileLoaded) {
-            pos = getPropertyAsLong("time_pos");
+            pos = (long) getPropertyAsFloat("time_pos");
         }
         return pos;
     }
