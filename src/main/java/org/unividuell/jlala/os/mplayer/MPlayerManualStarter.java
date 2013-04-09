@@ -17,7 +17,7 @@ public class MPlayerManualStarter {
 
         Player mPlayer = new MPlayer(true, null);
 
-        mPlayer.loadFile(file, false);
+        mPlayer.loadAndPlay(file, false);
     }
 
 }

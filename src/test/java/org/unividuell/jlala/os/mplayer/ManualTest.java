@@ -38,11 +38,30 @@ public class ManualTest {
         String path = new File(sound.getPath()).getAbsolutePath();
 
         // execute
-        sut.loadFile(path, false);
+        sut.loadAndPlay(path, false);
         // seek to 1 min
         sut.setTrackPositionAbsolute(60000);
         
         Thread.sleep(2000);
+        
+        // verify
+        assertThat(sut.getTrackPosition()).isEqualTo(60 + 2);
+    }
+    
+    @Test
+    public void stop() throws Exception {
+     // prepare
+        URL sound = this.getClass().getClassLoader().getResource("luv_deluxe.ogg");
+        String path = new File(sound.getPath()).getAbsolutePath();
+
+        sut.loadAndPlay(path, false);
+        // seek to 1 min
+        sut.setTrackPositionAbsolute(60000);
+        
+        Thread.sleep(2000);
+        // execute;
+        sut.stop();
+        Thread.sleep(4000);
     }
     
     @Test
@@ -50,7 +69,7 @@ public class ManualTest {
         URL sound = this.getClass().getClassLoader().getResource("luv_deluxe.ogg");
         String path = new File(sound.getPath()).getAbsolutePath();
         // execute
-        sut.loadFile(path, false);
+        sut.loadAndPlay(path, false);
         sut.setVolume(10);
         // seek to 1 min
         sut.setTrackPositionAbsolute(60000);
@@ -73,7 +92,7 @@ public class ManualTest {
         URL sound = this.getClass().getClassLoader().getResource("luv_deluxe.ogg");
         String path = new File(sound.getPath()).getAbsolutePath();
         // execute
-        sut.loadFile(path, false);
+        sut.loadAndPlay(path, false);
         sut.setVolume(40);
         
         long position = sut.getTrackPosition();
@@ -90,7 +109,7 @@ public class ManualTest {
         URL sound = this.getClass().getClassLoader().getResource("luv_deluxe.ogg");
         String path = new File(sound.getPath()).getAbsolutePath();
         // execute
-        sut.loadFile(path, false);
+        sut.loadAndPlay(path, false);
         sut.setVolume(40);
         
         sut.setTrackPositionAbsolute(60000);
@@ -103,6 +122,23 @@ public class ManualTest {
         Thread.sleep(2000);
         sut.pause();
         Thread.sleep(3000);
+    }
+    
+    @Test
+    public void loadScndFile() throws Exception {
+        URL sound01 = this.getClass().getClassLoader().getResource("luv_deluxe.ogg");
+        URL sound02 = this.getClass().getClassLoader().getResource("TDCC_next_year.ogg");
+        String path01 = new File(sound01.getPath()).getAbsolutePath();
+        String path02 = new File(sound02.getPath()).getAbsolutePath();
+        // execute
+        sut.loadAndPlay(path01, false);
+        sut.setVolume(40);
+        
+        sut.setTrackPositionAbsolute(60000);
+        Thread.sleep(3000);
+        
+        sut.loadAndPlay(path02, false);
+        Thread.sleep(10000);
     }
 
 }

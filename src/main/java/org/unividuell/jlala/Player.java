@@ -14,13 +14,6 @@ public interface Player {
     void stop();
     
     /**
-     * Start playback.
-     * {@link Deprecated use Player#loadFile(String, boolean) instead}
-     */
-    @Deprecated
-    void play();
-    
-    /**
      * Toggle the pause state.
      */
     void togglePause();
@@ -78,7 +71,7 @@ public interface Player {
      * @param appendToPlaylist append to a playlist or start playing instantly?
      * @throws IOException 
      */
-    void loadFile(String uri, boolean appendToPlaylist) throws IOException;
+    void loadAndPlay(String uri, boolean appendToPlaylist) throws IOException;
     
     /**
      * cloeses the player

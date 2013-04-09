@@ -259,14 +259,7 @@ public class MPlayer implements Player {
     
     @Override
     public void stop() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void play() {
-        // TODO Auto-generated method stub
-
+        execute("stop");
     }
 
     @Override
@@ -332,7 +325,7 @@ public class MPlayer implements Player {
     }
 
     @Override
-    public void loadFile(String uri, boolean appendToPlaylist) throws IOException {
+    public void loadAndPlay(String uri, boolean appendToPlaylist) throws IOException {
         open(uri);
     }
 
